@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Looks Travel Flight System</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#081120;
+color:white;
+padding:30px;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+}
+
+.title{
+text-align:center;
+font-size:42px;
+margin-bottom:30px;
+background:linear-gradient(45deg,#00eaff,#00ffcc);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+.main-box{
+background:#111d33;
+padding:30px;
+border-radius:20px;
+margin-bottom:30px;
+}
+
+.trip-buttons{
+display:flex;
+gap:15px;
+margin-bottom:25px;
+flex-wrap:wrap;
+}
+
+.trip-buttons button{
+padding:12px 24px;
+border:none;
+border-radius:10px;
+background:#1b3155;
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+}
+
+.trip-buttons button.active{
+background:#00eaff;
+color:black;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+}
+
+input,
+select{
+padding:14px;
+border:none;
+border-radius:12px;
+background:rgba(255,255,255,0.08);
+color:white;
+outline:none;
+}
+
+.multi-city{
+display:none;
+margin-top:20px;
+padding:20px;
+background:#0d1729;
+border-radius:15px;
+}
+
+.multi-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+}
+
+.add-flight{
+margin-top:25px;
+padding:25px;
+background:#0d1729;
+border-radius:18px;
+}
+
+.add-flight h2{
+margin-bottom:20px;
+color:#00eaff;
+}
+
+.flight-form{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+}
+
+.add-btn{
+margin-top:20px;
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+background:#00eaff;
+font-weight:700;
+cursor:pointer;
+transition:0.3s;
+}
+
+.add-btn:hover{
+background:#00ffcc;
+}
+
+.results{
+display:grid;
+gap:20px;
+}
+
+.flight-card{
+background:#13233d;
+padding:25px;
+border-radius:18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:20px;
+border:1px solid rgba(255,255,255,0.08);
+}
+
+.airline{
+font-size:26px;
+font-weight:700;
+color:#00eaff;
+margin-bottom:12px;
+}
+
+.info{
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+}
+
+.info div{
+background:rgba(255,255,255,0.05);
+padding:10px 14px;
+border-radius:10px;
+font-size:14px;
+}
+
+.price{
+font-size:30px;
+font-weight:700;
+color:#00ffcc;
+margin-bottom:15px;
+}
+
+.whatsapp-btn{
+padding:12px 20px;
+border:none;
+border-radius:10px;
+background:#25D366;
+color:white;
+font-weight:700;
+cursor:pointer;
+}
+
+@media(max-width:768px){
+
+body{
+padding:15px;
+}
+
+.flight-card{
+flex-direction:column;
+align-items:flex-start;
+}
+
+} select,option{
+    background-color: rgb(72, 72, 42);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1 class="title">
+Looks Travel Flight System
+</h1>
+
+<div class="main-box">
+
+<div class="trip-buttons">
+
+<button class="active"
+onclick="setTrip('One Way',this)">
+One Way
+</button>
+
+<button
+onclick="setTrip('Round Trip',this)">
+Round Trip
+</button>
+
+<button
+onclick="setTrip('Multi City',this)">
+Multi City
+</button>
+
+</div>
+
+<div class="form-grid">
+
+<input type="text"
+id="from"
+placeholder="Departure Airport">
+
+<input type="text"
+id="to"
+placeholder="Arrival Airport">
+
+<input type="date"
+id="departureDate">
+
+<input type="date"
+id="returnDate"
+style="display:none;">
+
+<select id="passenger">
+
+<option>1 Passenger</option>
+<option>2 Passengers</option>
+<option>3 Passengers</option>
+
+</select>
+
+<select id="travelClass">
+
+<option>Economy</option>
+<option>Business</option>
+<option>First Class</option>
+
+</select>
+
+</div>
+
+<div class="multi-city" id="multiCityBox">
+
+<div class="multi-grid">
+
+<input type="text"
+id="city2"
+placeholder="2nd Destination">
+
+<input type="date"
+id="city2Date">
+
+<input type="text"
+id="city3"
+placeholder="3rd Destination">
+
+<input type="date"
+id="city3Date">
+
+</div>
+
+</div>
+
+<div class="add-flight">
+
+<h2>Add Flight Information</h2>
+
+<div class="flight-form">
+
+<select id="airline">
+
+<option value="">
+Select Airline
+</option>
+
+<option>
+Air India
+</option>
+
+<option>
+Cathay Pacific
+</option>
+
+<option>
+Korean Air
+</option>
+
+<option>
+Air China
+</option>
+
+<option>
+China Southern Air
+</option>
+
+<option>
+Thai Airways
+</option>
+
+<option>
+Singapore Airlines
+</option>
+
+<option>
+Malaysia Airlines
+</option>
+
+<option>
+Qatar Airways
+</option>
+
+<option>
+Emirates
+</option>
+
+<option>
+Etihad Airways
+</option>
+
+</select>
+<div id="transitBox">
+
+<select id="transit1">
+
+<option value="">
+Outbound Transit
+</option>
+
+<option>
+Direct Flight
+</option>
+
+<option>
+1h 05m Transit
+</option>
+
+<option>
+1h 20m Transit
+</option>
+
+<option>
+1h 45m Transit
+</option>
+
+<option>
+2h 10m Transit
+</option>
+
+<option>
+2h 50m Transit
+</option>
+
+<option>
+3h 15m Transit
+</option>
+
+<option>
+3h 40m Transit
+</option>
+
+<option>
+4h 05m Transit
+</option>
+
+<option>
+5h 30m Transit
+</option>
+
+<option>
+6h 15m Transit
+</option>
+
+<option>
+7h 40m Transit
+</option>
+
+<option>
+8h 10m Transit
+</option>
+
+<option>
+10h+ Transit
+</option>
+
+<option>
+Overnight Transit
+</option>
+
+</select>
+
+<input
+type="text"
+id="customTransit1"
+placeholder="Or write outbound transit manually">
+
+</div>
+
+<div
+id="returnTransitBox"
+style="display:none; margin-top:15px;">
+
+<select id="transit2">
+
+<option value="">
+Return Transit
+</option>
+
+<option>
+Direct Flight
+</option>
+
+<option>
+1h 05m Transit
+</option>
+
+<option>
+1h 20m Transit
+</option>
+
+<option>
+1h 45m Transit
+</option>
+
+<option>
+2h 10m Transit
+</option>
+
+<option>
+2h 50m Transit
+</option>
+
+<option>
+3h 15m Transit
+</option>
+
+<option>
+3h 40m Transit
+</option>
+
+<option>
+4h 05m Transit
+</option>
+
+<option>
+5h 30m Transit
+</option>
+
+<option>
+6h 15m Transit
+</option>
+
+<option>
+7h 40m Transit
+</option>
+
+<option>
+8h 10m Transit
+</option>
+
+<option>
+10h+ Transit
+</option>
+
+<option>
+Overnight Transit
+</option>
+
+</select>
+
+<input
+type="text"
+id="customTransit2"
+placeholder="Or write return transit manually">
+
+</div>
+<input type="text"
+id="baggage"
+placeholder="Baggage">
+
+<input type="text"
+id="rate"
+placeholder="Rate">
+
+</div>
+
+<button class="add-btn"
+onclick="addFlight()">
+
+Add Flight
+
+</button>
+
+</div>
+
+</div>
+
+<div class="results"
+id="results">
+
+</div>
+<button class="add-btn"
+onclick="sendAllFlights()">
+
+Send All Flights To WhatsApp
+
+</button>
+</div>
+
+<script>
+
+let currentTrip = "One Way";
+
+let allFlights = [];
+
+function setTrip(type, btn) {
+
+  currentTrip = type;
+
+  document.querySelectorAll(".trip-buttons button")
+    .forEach(button => button.classList.remove("active"));
+
+  if (btn) btn.classList.add("active");
+
+  let returnDate = document.getElementById("returnDate");
+  let multiCityBox = document.getElementById("multiCityBox");
+  let returnTransitBox = document.getElementById("returnTransitBox");
+
+  if (type === "Round Trip") {
+    returnDate.style.display = "block";
+    returnTransitBox.style.display = "block";
+    multiCityBox.style.display = "none";
+  } 
+  else if (type === "Multi City") {
+    returnDate.style.display = "none";
+    returnTransitBox.style.display = "none";
+    multiCityBox.style.display = "block";
+  } 
+  else {
+    returnDate.style.display = "none";
+    returnTransitBox.style.display = "none";
+    multiCityBox.style.display = "none";
+  }
+}
+
+
+function addFlight() {
+
+  // SAFE GET VALUES
+  let airlineEl = document.getElementById("airline");
+  let baggageEl = document.getElementById("baggage");
+  let rateEl = document.getElementById("rate");
+  let fromEl = document.getElementById("from");
+  let toEl = document.getElementById("to");
+  let departureDateEl = document.getElementById("departureDate");
+  let returnDate = document.getElementById("returnDate")?.value || "";
+  let passengerEl = document.getElementById("passenger");
+  let travelClassEl = document.getElementById("travelClass");
+
+  if (!airlineEl || !baggageEl || !rateEl || !fromEl || !toEl || !departureDateEl) {
+    alert("HTML elements missing. Check IDs.");
+    return;
+  }
+
+  let airline = airlineEl.value;
+  let baggage = baggageEl.value;
+  let rate = rateEl.value;
+  let from = fromEl.value;
+  let to = toEl.value;
+  let departureDate = departureDateEl.value;
+  let passenger = passengerEl.value;
+  let travelClass = travelClassEl.value;
+
+  // TRANSIT SAFE FIX
+  let transit1El = document.getElementById("transit1");
+  let customTransit1El = document.getElementById("customTransit1");
+  let transit2El = document.getElementById("transit2");
+  let customTransit2El = document.getElementById("customTransit2");
+
+  let outboundTransit = (customTransit1El?.value || transit1El?.value || "Not selected");
+  let returnTransit = (customTransit2El?.value || transit2El?.value || "Not selected");
+
+  // VALIDATION
+  if (!airline || !baggage || !rate || !from || !to || !departureDate) {
+    alert("Please fill all required fields");
+    return;
+  }
+
+  // TRIP TEXT
+  let tripText = currentTrip;
+
+  if (currentTrip === "Round Trip") {
+    let returnDate = document.getElementById("returnDate")?.value;
+    tripText += returnDate ? " • Return: " + returnDate : "";
+  }
+
+  if (currentTrip === "Multi City") {
+    let city2 = document.getElementById("city2")?.value || "";
+    let city3 = document.getElementById("city3")?.value || "";
+    tripText = `Multi City: ${from} → ${city2} → ${city3} → ${to}`;
+  }
+
+  // FLIGHT OBJECT
+  let flight = {
+    airline,
+    from,
+    to,
+    departureDate,
+    passenger,
+    travelClass,
+    baggage,
+    rate,
+    tripText,
+    outboundTransit,
+    returnTransit
+  };
+
+  allFlights.push(flight);
+
+  // CARD
+  let card = document.createElement("div");
+  card.className = "flight-card";
+
+  card.innerHTML = `
+    <div>
+      <div class="airline">${airline}</div>
+
+      <div class="info">
+        <div>🛫 ${from} → ${to}</div>
+        <div>📅 ${departureDate}</div>
+        <div>✈️ ${tripText}</div>
+        <div>📍 Outbound: ${outboundTransit}</div>
+        ${currentTrip === "Round Trip" ? `<div>🔁 Return: ${returnTransit}</div>` : ""}
+        <div>🧳 ${baggage}</div>
+        <div>👥 ${passenger}</div>
+        <div>💺 ${travelClass}</div>
+      </div>
+    </div>
+
+    <div class="price">${rate}</div>
+  `;
+
+  document.getElementById("results").appendChild(card);
+
+  // RESET SAFE
+  airlineEl.value = "";
+  baggageEl.value = "";
+  rateEl.value = "";
+}
+function sendAllFlights() {
+
+  if (allFlights.length === 0) {
+    alert("No flights added");
+    return;
+  }
+
+  let message = "✈️ LOOKS TRAVEL FLIGHT OPTIONS\n\n";
+
+  allFlights.forEach((flight, index) => {
+
+    message +=
+      "━━━━━━━━━━━━\n" +
+      "✈️ Flight " + (index + 1) + "\n\n" +
+      "🏢 Airline: " + flight.airline + "\n" +
+      "🛫 Route: " + flight.from + " → " + flight.to + "\n" +
+      "📅 Date: " + flight.departureDate + "\n" +
+      
+      "✈️ Trip: " + flight.tripText + "\n" +
+      "📍 Outbound: " + flight.outboundTransit + "\n";
+      if (flight.returnDate && flight.returnDate !== "") {
+  message += "📅 Return Date: " + flight.returnDate + "\n";
+}
+
+    if (flight.returnTransit && currentTrip === "Round Trip") {
+      message += "🔁 Return: " + flight.returnTransit + "\n";
+    }
+
+    message +=
+      "🧳 Baggage: " + flight.baggage + "\n" +
+      "👥 Passengers: " + flight.passenger + "\n" +
+      "💺 Class: " + flight.travelClass + "\n" +
+      "💵 Rate: " + flight.rate + "\n\n";
+  });
+
+  window.open(
+    "https://wa.me/9762219660?text=" + encodeURIComponent(message),
+    "_blank"
+  );
+}
+window.open(
+  "https://wa.me/9762219660?text=" + encodeURIComponent(message),
+  "_blank"
+);
+</script>
+
+</body>
+</html>
